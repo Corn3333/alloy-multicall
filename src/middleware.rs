@@ -6,6 +6,7 @@ use alloy::{
     json_abi::Function,
     primitives::{Address, Bytes, U256},
     providers::Provider,
+    rpc::types::BlockId,
 };
 
 use crate::{
@@ -258,11 +259,16 @@ where
     /// Returns a [MulticallError] if the Multicall call failed. This can occur due to RPC errors,
     /// or if an individual call failed whilst `allowFailure` was false.
     pub async fn call(&self) -> Result<Vec<StdResult<DynSolValue, Bytes>>> {
+        self.call_with_block(BlockId::pending()).await
+    }
+
+
+    pub async fn call_with_block(&self, block: BlockId) -> Result<Vec<StdResult<DynSolValue, Bytes>>> {
         match self.version {
             MulticallVersion::Multicall => {
                 let call = self.as_aggregate();
 
-                let multicall_result = call.call().await?;
+                let multicall_result = call.call().block(block).await?;
 
                 self.parse_multicall_result(multicall_result.returnData.into_iter().map(
                     |return_data| MulticallResult {
@@ -275,7 +281,7 @@ where
             MulticallVersion::Multicall2 => {
                 let call = self.as_try_aggregate();
 
-                let multicall_result = call.call().await?;
+                let multicall_result = call.call().block(block).await?;
 
                 self.parse_multicall_result(multicall_result.returnData)
             }
@@ -283,7 +289,7 @@ where
             MulticallVersion::Multicall3 => {
                 let call = self.as_aggregate_3();
 
-                let multicall_result = call.call().await?;
+                let multicall_result = call.call().block(block).await?;
 
                 self.parse_multicall_result(multicall_result.returnData)
             }
