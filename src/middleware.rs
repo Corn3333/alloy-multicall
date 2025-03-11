@@ -580,12 +580,15 @@ where
         ) in self.calls.iter().zip(iter)
         {
             // TODO - should empty return data also be considered a call failure, and returns an
-            // error when allow_failure = false?
-
+            // error when allow_failure = false?  
+                      
             let result = if !success {
                 if !call.allow_failure {
                     return Err(MulticallError::FailedCall);
                 }
+
+                Err(returnData)
+            } else if returnData.is_empty() {
 
                 Err(returnData)
             } else {
@@ -597,7 +600,7 @@ where
                 if let Err(err) = decoded {
                     // TODO should we return out of the function here, or assign empty bytes to
                     // result? Linked to above TODO
-
+                    
                     return Err(err);
                 } else {
                     let mut decoded = decoded.unwrap();
@@ -812,5 +815,5 @@ mod tests {
         assert_eq!(symbol, "WETH");
         assert_eq!(decimals, 18);
         assert_eq!(chain_id, 1);
-    }
+    } 
 }
