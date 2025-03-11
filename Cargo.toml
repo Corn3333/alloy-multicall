@@ -1,6 +1,6 @@
 [package]
 name = "alloy-multicall"
-version = "0.11.1"
+version = "0.12.0"
 authors = ["Corn3333"]
 license = "MIT"
 edition = "2021"
@@ -14,18 +14,18 @@ Multicall for everyone.
 
 [dependencies]
 thiserror = "2.0.0"
-alloy = { version = "0.11.1", default-features = false, features = [
+alloy = { version = "0.12.0", default-features = false, features = [
     "contract",
     "providers",
     "std",
     "rpc-types",
 ] }
-alloy-chains = "0.1.62"
+alloy-chains = "0.1.64"
 
 [dev-dependencies]
-tokio = { version = "1.40.0", features = ["full"] }
+tokio = { version = "1.44.0", features = ["full"] }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-alloy = { version = "0.11.0", default-features = false, features = [
+alloy = { version = "0.12.0", default-features = false, features = [
     "contract",
     "providers",
     "reqwest-rustls-tls",
