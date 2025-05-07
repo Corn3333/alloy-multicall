@@ -4,6 +4,11 @@ Easily send multicall transactions using [Alloy].
 
 [Alloy]: https://github.com/alloy-rs/alloy
 
+> **Notice**
+
+> The current version of Alloy supports built-in multicall.
+> Learn how to use Alloy Multicall by [visiting the book](https://alloy.rs/guides/multicall).
+
 ## Installation
 
 Add `alloy-multicall` to your `Cargo.toml`.
